@@ -1,5 +1,4 @@
 // pages/api/login.js
-import Admin from "../../models/admin";  // Admin modelini import et
 import bcrypt from "bcryptjs";  // Bcrypt'i import et
 import dbConnect from "../../lib/dbConnect";
 
