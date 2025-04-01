@@ -1,7 +1,7 @@
 // pages/api/login.js
 import Admin from "../../models/admin";  // Admin modelini import et
 import bcrypt from "bcryptjs";  // Bcrypt'i import et
-import dbConnect from "../../utils/dbConnect";  // MongoDB bağlantısı
+import dbConnect from "../../lib/dbConnect";
 
 export default async function handler(req, res) {
   if (req.method === "POST") {
