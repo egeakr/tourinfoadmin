@@ -1,0 +1,60 @@
+/* Genel Stil */
+body {
+    font-family: Arial, sans-serif;
+    background: #051324;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+  }
+  
+  /* Login Formunun Konumu ve Tasarımı */
+  .container {
+    background: #04101C;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    text-align: center;
+    width: 350px;
+  }
+  
+  .logo {
+    margin: auto;
+  }
+  
+  /* Form Alanları */
+  .form input {
+    width: 100%;
+    padding: 10px;
+    margin: 10px 0;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 16px;
+    color: #333;
+  }
+  
+  /* Giriş Butonu */
+  button {
+    width: 100%;
+    background: #feffff;
+    color: rgb(0, 0, 0);
+    border: none;
+    padding: 12px;
+    font-size: 16px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: 0.3s;
+  }
+  
+  button:hover {
+    background: #b0b7c0;
+  }
+  
+  /* Hata veya Uyarı Mesajları */
+  .error {
+    color: red;
+    font-size: 14px;
+    margin-top: 10px;
+  }
+  
