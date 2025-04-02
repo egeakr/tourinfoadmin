@@ -1,9 +1,9 @@
 // pages/api/users.js
-import connectDb from "../../lib/db";
+import { dbConnect } from "../../lib/db";
 import User from "../../models/User";
 
 const handler = async (req, res) => {
-  await connectDb();
+  await dbConnect();
 
   if (req.method === 'GET') {
     const user = await User.find(); // Tüm kullanıcıları getir
