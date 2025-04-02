@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useState, useEffect, useContext, useCallback } from 'react';
 import { Table, Button, Popconfirm, Form, message, Input, Spin } from 'antd';
 import axios from 'axios';
 
@@ -23,6 +23,7 @@ const EditableCell = React.memo(({ title, editable, children, dataIndex, record,
 
   const toggleEdit = () => setEditing(prev => !prev);
 
+  // Hücrede düzenleme tamamlandığında form değerlerini alıp, handleSave fonksiyonuna iletir
   const save = async () => {
     try {
       const values = await form.validateFields();
@@ -74,21 +75,22 @@ const EditableTable = () => {
   const [editingKey, setEditingKey] = useState('');
   const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    fetchData();
-  }, []);
-
-  const fetchData = async () => {
+  // fetchData fonksiyonunu useCallback ile sarmalayıp tanımlıyoruz
+  const fetchData = useCallback(async () => {
     try {
       setLoading(true);
-      const { data } = await axios.get('/api/location');
-      setData(data.map(item => ({ ...item, key: item._id })));
+      const { data } = await axios.get("/api/location");
+      setData(data.map((item) => ({ ...item, key: item._id })));
     } catch (error) {
-      message.error('Veri çekilemedi!');
+      message.error("Veri çekilemedi!");
     } finally {
       setLoading(false);
     }
-  };
+  }, []);
+
+  useEffect(() => {
+    fetchData();
+  }, [fetchData]);
 
   const isEditing = record => record.key === editingKey;
 
@@ -98,12 +100,18 @@ const EditableTable = () => {
 
   const save = async row => {
     try {
-      await axios.put(`/api/location?id=${row.key}`, row);
+      const { _id, ...updatedData } = row; // `_id` dışında güncellenen verileri al
+      axios.put(`/api/location?id=${row.key}`, row)
+  .then(() => message.success('Başarıyla güncellendi!'))
+  .catch((err) => {
+    console.error("PUT Hatası:", err.response?.data || err.message);
+    message.error('Güncelleme başarısız!');
+      });
       message.success('Başarıyla güncellendi!');
-      await fetchData(); // Verileri yeniden çek
+      await fetchData(); // Güncellenmiş verileri tekrar çek
     } catch (err) {
       message.error('Güncelleme başarısız!');
-      await fetchData(); // Hata durumunda verileri resetle
+      console.error("Güncelleme hatası:", err);
     }
     setEditingKey('');
   };
@@ -120,36 +128,36 @@ const EditableTable = () => {
       title: 'İşlemler',
       dataIndex: 'actions',
       width: '15%',
-      render: (_, record) => (
-        isEditing(record) ? (
-          <span className="action-buttons">
-            <Button 
-              type="primary" 
-              onClick={() => save(record)}
-              style={{ marginRight: 8 }}
-            >
-              Kaydet
-            </Button>
-            <Popconfirm 
-              title="Değişiklikleri iptal etmek istiyor musunuz?"
-              onConfirm={cancel}
-              okText="Evet"
-              cancelText="Hayır"
-            >
-              <Button danger>İptal</Button>
-            </Popconfirm>
-          </span>
-        ) : (
-          <Button 
-            type="link" 
-            onClick={() => edit(record)}
-            disabled={editingKey !== ''}
-            style={{ color: '#1890ff' }}
-          >
-            Düzenle
-          </Button>
-        )
-      )
+      // render: (_, record) => (
+      //   isEditing(record) ? (
+      //     <span className="action-buttons">
+      //       <Button 
+      //         type="primary" 
+      //         onClick={() => save(record)}
+      //         style={{ marginRight: 8 }}
+      //       >
+      //         Kaydet
+      //       </Button>
+      //       <Popconfirm 
+      //         title="Değişiklikleri iptal etmek istiyor musunuz?"
+      //         onConfirm={cancel}
+      //         okText="Evet"
+      //         cancelText="Hayır"
+      //       >
+      //         <Button danger>İptal</Button>
+      //       </Popconfirm>
+      //     </span>
+      //   ) : (
+      //     <Button 
+      //       type="link" 
+      //       onClick={() => edit(record)}
+      //       disabled={editingKey !== ''}
+      //       style={{ color: '#1890ff' }}
+      //     >
+      //       Düzenle
+      //     </Button>
+      //   )
+      // )
     }
   ];
 
