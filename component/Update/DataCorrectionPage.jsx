@@ -1,3 +1,4 @@
+"use client";
 import React, { useState, useEffect, useContext, useCallback } from 'react';
 import { Table, Button, Popconfirm, Form, message, Input, Spin } from 'antd';
 import axios from 'axios';

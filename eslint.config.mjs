@@ -1,15 +1,15 @@
-import { FlatCompat } from "@eslint/eslintrc";
+// eslint.config.mjs
+import nextPlugin from 'eslint-config-next';
 
-const compat = new FlatCompat();
-
-const eslintConfig = [
-  ...compat.extends("next/core-web-vitals"),
+export default [
+  ...nextPlugin.configs['recommended'],
   {
     languageOptions: {
-      ecmaVersion: "latest", // En güncel ECMAScript versiyonunu kullan
-      sourceType: "module",
+      ecmaVersion: 'latest',
+      sourceType: 'module',
+    },
+    rules: {
+      'no-unused-vars': ['warn', { vars: 'all', args: 'after-used', ignoreRestSiblings: false }],
     },
   },
 ];
-
-export default eslintConfig;

@@ -1,3 +1,4 @@
+// import { connectToDatabase } from "../../lib/db"; // doğru import
 import dbConnect from "../../lib/dbConnect";
 import Location from "../../models/Location";
 import multer from "multer";

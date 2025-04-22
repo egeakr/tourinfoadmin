@@ -1,4 +1,3 @@
-"use client";
 import "./style.css";
 import { useState, useEffect } from "react"; // useEffect import edilmesi gerekiyor
 import { useRouter } from "next/navigation";
